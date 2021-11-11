@@ -3,22 +3,20 @@
 template <class Value>
 class Stack
 {
-	Stack* head = nullptr;
 	Stack* next;
 	Value meaning;
 public:
 	Stack();
-	~Stack();
-
 	void init();
-	bool is_empty();
+	bool is_empty(Stack* head);
 
-	void push(const Value userdate);
-	Value pop();
+	void push(Stack*& head,const Value userdate);
+	Value pop(Stack*& head);
 
-	void clear();
-	void print();
+	void clear(Stack*& head);
+	void print(Stack* head);
 };
+
 
 template<class Value>
 inline Stack<Value>::Stack()
@@ -26,55 +24,52 @@ inline Stack<Value>::Stack()
 	init();
 }
 
-template<class Value>
-inline Stack<Value>::~Stack()
-{
-	if (!is_empty()) clear();
-}
-
 
 template <class Value>
-void Stack<Value>::init()
+inline void Stack<Value>::init()
 {
-	head = nullptr;
+	next = nullptr;
+	meaning = 0;
 }
 
 template <class Value>
-bool Stack<Value>::is_empty()
+inline bool Stack<Value>::is_empty(Stack* head)
 {
 	return head == nullptr ? 1 : 0;
 }
 
 
 template <class Value>
-void Stack<Value>::push(const Value userdate)
+void Stack<Value>::push(Stack*& head, const Value userdate)
 {
 	Stack* add = new Stack;
 
 	add->meaning = userdate;
 	add->next = head;
-	head = add;
+	head= add;
 
 	add = nullptr;
 }
 
 template<class Value>
-inline Value Stack<Value>::pop()
-{
-	Stack* now = head;
+Value Stack<Value>::pop(Stack*& head)
+{	
 	Value delMeaning = meaning;
-	
+	Stack* now = head;
+
 	head = head->next;
 	delete now;
 	now = nullptr;
-
+	
 	return delMeaning;
 }
 
+
+
 template<class Value>
-inline void Stack<Value>::clear()
+void Stack<Value>::clear(Stack*& head)
 {
-	if (!is_empty())
+	if (!is_empty(head))
 	{
 		Stack* now = nullptr;
 
@@ -89,7 +84,7 @@ inline void Stack<Value>::clear()
 }
 
 template<class Value>
-inline void Stack<Value>::print()
+void Stack<Value>::print(Stack* head)
 {
 	if (!is_empty())
 	{
